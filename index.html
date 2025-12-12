@@ -231,13 +231,22 @@ function procesarVenta() {
 }
 
 function resetApp() {
+  // 1. PRIMERO restauramos el botón (para que exista el id 'modal-total')
+  document.getElementById('btn-finalizar').disabled = false;
+  document.getElementById('btn-finalizar').innerHTML = 'CONFIRMAR (S/ <span id="modal-total">0.00</span>)';
+
+  // 2. Limpiamos el carrito interno
   carrito = {};
+  
+  // 3. Limpiamos los contadores visuales de las tarjetas
   document.querySelectorAll('.qty-display').forEach(el => el.textContent = '0');
-  calcularTotales();
+  
+  // 4. Limpiamos los inputs del modal
   document.getElementById('pago-cliente').value = '';
   document.getElementById('vuelto').value = '';
-  document.getElementById('btn-finalizar').disabled = false;
-  document.getElementById('btn-finalizar').innerHTML = 'CONFIRMAR (S/ <span id="modal-total">0</span>)';
+
+  // 5. AHORA SÍ es seguro recalcular totales (porque el span ya existe)
+  calcularTotales();
 }
 </script>
 </body>
