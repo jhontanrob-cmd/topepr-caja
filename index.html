@@ -9,7 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
-/* --- ESTILOS IDÉNTICOS A LA VERSIÓN ANTERIOR --- */
+/* --- ESTILOS --- */
 :root { --primary: #2563eb; --primary-dark: #1e40af; --bg: #f3f4f6; --card: #ffffff; --text: #1f2937; --green: #10b981; }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 140px; }
@@ -75,14 +75,14 @@ header h1 { margin: 0; font-size: 1.2rem; color: var(--primary-dark); }
     <div class="form-group" id="grupo-vuelto">
       <input type="text" id="vuelto" class="form-control" readonly style="background:#f3f4f6; color: var(--green); font-weight:bold;" placeholder="Vuelto">
     </div>
-    <button class="btn-block btn-confirm" id="btn-finalizar" onclick="procesarVenta()">CONFIRMAR (S/ <span id="modal-total">0</span>)</button>
+    <button class="btn-block btn-confirm" id="btn-finalizar" onclick="procesarVenta()">CONFIRMAR (S/ <span id="modal-total">0.00</span>)</button>
     <button class="btn-block btn-cancel" onclick="cerrarPagar()">Cancelar</button>
   </div>
 </div>
 
 <script>
 // ==========================================
-// CONFIGURACIÓN: ¡PEGA TU URL DE APPS SCRIPT AQUÍ!
+// CONFIGURACIÓN: URL ACTUALIZADA
 // ==========================================
 const API_URL = "https://script.google.com/macros/s/AKfycbxd1jaUIzkw2O31G-aLlZnpY6I-1hn_pvoOb39ctUQ675q6h4E7ZIx-1zGrDkLkLw_v8Q/exec"; 
 
@@ -97,7 +97,7 @@ window.onload = function() {
       if(res.status === 'success'){
         cargarProductos(res.data);
       } else {
-        alert("Error cargando productos");
+        document.getElementById('loader').innerHTML = "Error: " + JSON.stringify(res);
       }
     })
     .catch(err => {
@@ -110,6 +110,7 @@ function cargarProductos(data) {
   document.getElementById('loader').style.display = 'none';
   productos = data;
   const grid = document.getElementById('product-grid');
+  grid.innerHTML = ""; // Limpiar grid por si acaso
   
   productos.forEach((p, index) => {
     let imgHtml = p.img ? `<img src="${p.img}" alt="${p.nombre}">` : `<i class="fas fa-box"></i>`;
@@ -136,7 +137,10 @@ function updateCart(nombre, precio, delta) {
   if (carrito[nombre].cantidad < 0) carrito[nombre].cantidad = 0;
   
   let index = productos.findIndex(p => p.nombre === nombre);
-  if(index >= 0) document.getElementById(`qty-${index}`).textContent = carrito[nombre].cantidad;
+  if(index >= 0) {
+     let qtyEl = document.getElementById(`qty-${index}`);
+     if(qtyEl) qtyEl.textContent = carrito[nombre].cantidad;
+  }
   calcularTotales();
 }
 
@@ -149,12 +153,21 @@ function calcularTotales() {
       itemsCount += carrito[key].cantidad;
     }
   }
-  document.getElementById('total-display').textContent = "S/ " + total.toFixed(2);
-  document.getElementById('modal-total').textContent = total.toFixed(2);
-  document.getElementById('item-count').textContent = itemsCount + " items";
+  
+  // Actualizar UI de forma SEGURA (evita errores null)
+  let totalDisplay = document.getElementById('total-display');
+  if(totalDisplay) totalDisplay.textContent = "S/ " + total.toFixed(2);
+  
+  // Esta es la parte que fallaba: ahora verificamos si existe antes de escribir
+  let modalTotal = document.getElementById('modal-total');
+  if(modalTotal) modalTotal.textContent = total.toFixed(2);
+  
+  let itemCount = document.getElementById('item-count');
+  if(itemCount) itemCount.textContent = itemsCount + " items";
   
   const footer = document.getElementById('footer');
   if (total > 0) footer.classList.add('visible'); else footer.classList.remove('visible');
+  
   return total;
 }
 
@@ -178,7 +191,7 @@ function calcularVuelto() {
   inputVuelto.style.color = vuelto < 0 ? "red" : "var(--green)";
 }
 
-// --- ENVIAR A GOOGLE SHEETS DESDE GITHUB ---
+// --- ENVIAR ---
 function procesarVenta() {
   let btn = document.getElementById('btn-finalizar');
   let total = calcularTotales();
@@ -189,6 +202,8 @@ function procesarVenta() {
     if (!pago || pago < total) return Swal.fire('Error', 'Pago insuficiente', 'error');
   }
 
+  // Cambiar estado a Enviando (Esto borraba el span antes, ahora lo manejamos mejor)
+  let originalBtnText = btn.innerHTML;
   btn.innerText = "Enviando...";
   btn.disabled = true;
 
@@ -202,13 +217,11 @@ function procesarVenta() {
     }
   }
 
-  // Estructura de datos para enviar
   let payload = {
     action: "registrarVenta",
     orden: { items: itemsVendidos, totalGlobal: total, metodo: metodo }
   };
 
-  // Usamos fetch con POST y 'text/plain' para evitar problemas de CORS preflight en GAS
   fetch(API_URL, {
     method: "POST",
     body: JSON.stringify(payload)
@@ -225,27 +238,24 @@ function procesarVenta() {
   })
   .catch(err => {
     Swal.fire('Error', 'No se pudo registrar: ' + err, 'error');
+    // Restaurar botón correctamente si hay error
     btn.disabled = false;
-    btn.innerText = "CONFIRMAR";
+    btn.innerHTML = 'CONFIRMAR (S/ <span id="modal-total">' + total.toFixed(2) + '</span>)';
   });
 }
 
 function resetApp() {
-  // 1. PRIMERO restauramos el botón (para que exista el id 'modal-total')
+  // 1. Restaurar Botón
   document.getElementById('btn-finalizar').disabled = false;
   document.getElementById('btn-finalizar').innerHTML = 'CONFIRMAR (S/ <span id="modal-total">0.00</span>)';
 
-  // 2. Limpiamos el carrito interno
+  // 2. Limpiar datos
   carrito = {};
-  
-  // 3. Limpiamos los contadores visuales de las tarjetas
   document.querySelectorAll('.qty-display').forEach(el => el.textContent = '0');
-  
-  // 4. Limpiamos los inputs del modal
   document.getElementById('pago-cliente').value = '';
   document.getElementById('vuelto').value = '';
 
-  // 5. AHORA SÍ es seguro recalcular totales (porque el span ya existe)
+  // 3. Recalcular (ahora es seguro porque calcularTotales verifica si existen los elementos)
   calcularTotales();
 }
 </script>
