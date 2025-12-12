@@ -3,25 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<title>POS Moderno</title>
+<title>POS Católico</title>
 
-<!-- Fuente Poppins (Más moderna) e Iconos -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Fuente 'Cinzel' (Elegante para títulos) y 'Poppins' (Lectura) -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
-/* --- VARIABLES DE DISEÑO MODERNO --- */
+/* --- VARIABLES ESTILO CATÓLICO --- */
 :root {
-  --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-  --secondary-gradient: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%);
-  --bg-color: #f8fafc;
+  /* Dorado Eclesial y Azul Mariano */
+  --primary-gradient: linear-gradient(135deg, #b45309 0%, #d97706 100%); /* Tonos dorados/bronce */
+  --secondary-gradient: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); /* Azul profundo */
+  --bg-color: #fdfbf7; /* Crema suave (papel antiguo) */
   --card-bg: #ffffff;
-  --text-main: #1e293b;
-  --text-muted: #64748b;
-  --shadow-soft: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-  --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-  --radius: 24px;
+  --text-main: #422006; /* Marrón muy oscuro */
+  --text-muted: #78350f;
+  --radius: 20px;
+  --shadow-soft: 0 10px 30px -10px rgba(180, 83, 9, 0.15);
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -32,14 +32,15 @@ body {
   font-family: 'Poppins', sans-serif;
   background-color: var(--bg-color);
   color: var(--text-main);
-  padding-bottom: 140px; /* Espacio para el footer */
+  padding-bottom: 140px;
+  background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+  background-size: 20px 20px;
 }
 
-/* HEADER CON EFECTO VIDRIO */
+/* HEADER */
 header {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
   padding: 15px 25px;
   position: sticky;
   top: 0;
@@ -47,43 +48,42 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  border-bottom: 1px solid rgba(180, 83, 9, 0.1);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
 }
 
 header h1 {
   margin: 0;
-  font-size: 1.4rem;
+  font-family: 'Cinzel', serif; /* Fuente clásica */
+  font-size: 1.3rem;
   font-weight: 700;
-  background: var(--primary-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: -0.5px;
+  color: #92400e;
+  display: flex; align-items: center; gap: 8px;
 }
 
 .badge-count {
-  background: var(--text-main);
-  color: white;
-  padding: 6px 14px;
+  background: #92400e;
+  color: #fffbeb;
+  padding: 6px 12px;
   border-radius: 50px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 2px 8px rgba(146, 64, 14, 0.3);
+  transition: transform 0.2s;
 }
 .badge-count.bump { transform: scale(1.2); }
 
-/* GRID DE PRODUCTOS */
+/* GRID PRODUCTOS */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 20px;
   padding: 25px;
-  animation: fadeIn 0.8s ease-out;
+  animation: fadeIn 1s ease-out;
 }
-
 @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-/* TARJETA DE PRODUCTO */
+/* TARJETA */
 .card {
   background: var(--card-bg);
   border-radius: var(--radius);
@@ -92,250 +92,190 @@ header h1 {
   flex-direction: column;
   justify-content: space-between;
   box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(180, 83, 9, 0.08);
   transition: all 0.3s ease;
-  border: 1px solid rgba(255,255,255,0.5);
-  position: relative;
-  overflow: hidden;
 }
+.card:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(180, 83, 9, 0.2); border-color: #d97706; }
 
-.card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
-
-/* IMAGEN O ICONO */
 .img-box {
-  width: 100%;
-  aspect-ratio: 1/1; /* Cuadrado perfecto */
-  background: #f1f5f9;
-  border-radius: 18px;
+  width: 100%; aspect-ratio: 1/1;
+  background: #fffbeb;
+  border-radius: 15px;
   margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   overflow: hidden;
-  position: relative;
 }
+.img-box img { width: 100%; height: 100%; object-fit: cover; }
+.placeholder-icon { font-size: 2.5rem; color: #d97706; opacity: 0.7; }
 
-.img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
-.card:hover .img-box img { transform: scale(1.1); }
-
-.placeholder-icon {
-  font-size: 3rem;
-  background: var(--secondary-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* INFO PRODUCTO */
-.prod-info { margin-bottom: 15px; }
-.prod-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; line-height: 1.3; color: var(--text-main); }
-.prod-price { font-weight: 700; font-size: 1.1rem; color: #6366f1; }
+.prod-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; color: #422006; }
+.prod-price { font-weight: 700; font-size: 1.1rem; color: #b45309; font-family: 'Cinzel', serif; }
 
 /* CONTROLES */
 .controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #f8fafc;
-  border-radius: 14px;
-  padding: 5px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: #fff7ed; border-radius: 12px; padding: 4px; border: 1px solid #ffedd5;
 }
-
 .btn-control {
-  width: 36px; height: 36px;
-  border: none;
-  border-radius: 10px;
-  background: white;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  color: var(--text-main);
-  font-size: 1.2rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border: none; border-radius: 8px;
+  background: white; color: #9a3412;
+  font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
+.btn-plus { background: #9a3412; color: white; }
+.qty-display { font-weight: 600; font-size: 1rem; width: 30px; text-align: center; color: #7c2d12; }
 
-.btn-control:active { transform: scale(0.9); background: #e2e8f0; }
-.btn-plus { background: var(--text-main); color: white; }
-.qty-display { font-weight: 600; font-size: 1rem; width: 30px; text-align: center; }
-
-/* FOOTER FLOTANTE */
+/* FOOTER */
 .floating-footer {
-  position: fixed;
-  bottom: 25px;
-  left: 20px;
-  right: 20px;
-  background: rgba(30, 41, 59, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  color: white;
-  border-radius: 24px;
-  padding: 16px 25px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  position: fixed; bottom: 25px; left: 20px; right: 20px;
+  background: #422006; /* Marrón oscuro */
+  color: #fffbeb;
+  border-radius: 20px; padding: 15px 25px;
+  display: flex; justify-content: space-between; align-items: center;
+  box-shadow: 0 15px 35px rgba(66, 32, 6, 0.4);
   z-index: 100;
-  transform: translateY(150%);
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: translateY(150%); transition: transform 0.4s;
 }
-
 .floating-footer.visible { transform: translateY(0); }
-
-.total-wrapper { display: flex; flex-direction: column; }
-.total-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; }
-.total-amount { font-size: 1.4rem; font-weight: 700; }
-
+.total-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #fbbf24; }
+.total-amount { font-size: 1.5rem; font-weight: 700; font-family: 'Cinzel', serif; }
 .btn-checkout {
-  background: var(--primary-gradient);
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 16px;
-  font-weight: 600;
-  font-size: 1rem;
-  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-  display: flex; align-items: center; gap: 8px;
-  transition: transform 0.2s;
+  background: linear-gradient(to right, #d97706, #b45309);
+  color: white; border: none; padding: 10px 22px; border-radius: 12px;
+  font-weight: 600; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.4);
 }
-.btn-checkout:active { transform: scale(0.95); }
 
-/* MODAL / SHEET */
+/* MODAL */
 .modal-overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-  z-index: 200;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s;
+  background: rgba(66, 32, 6, 0.7); z-index: 200;
+  opacity: 0; visibility: hidden; transition: all 0.3s;
   display: flex; align-items: flex-end;
 }
 .modal-overlay.open { opacity: 1; visibility: visible; }
-
 .modal-sheet {
-  background: #ffffff;
-  width: 100%;
-  border-radius: 30px 30px 0 0;
-  padding: 35px 30px;
-  transform: translateY(100%);
-  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  background: #fff; width: 100%; border-radius: 30px 30px 0 0;
+  padding: 30px; transform: translateY(100%); transition: transform 0.3s;
 }
 .modal-overlay.open .modal-sheet { transform: translateY(0); }
 
-.sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-.sheet-title { font-size: 1.5rem; font-weight: 700; margin: 0; }
-.btn-close { background: none; border: none; font-size: 1.5rem; color: #94a3b8; }
-
-.form-group { margin-bottom: 20px; }
 .input-modern {
-  width: 100%;
-  padding: 18px;
-  background: #f1f5f9;
-  border: 2px solid transparent;
-  border-radius: 16px;
-  font-size: 1.1rem;
-  font-family: inherit;
-  outline: none;
-  transition: 0.3s;
+  width: 100%; padding: 16px; background: #fffbeb;
+  border: 1px solid #fcd34d; border-radius: 14px;
+  font-size: 1rem; outline: none; margin-bottom: 15px; color: #78350f;
 }
-.input-modern:focus { background: white; border-color: #6366f1; }
-select.input-modern { appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 15px center; background-size: 15px; }
+.input-modern:focus { border-color: #b45309; background: white; }
 
-.btn-full { width: 100%; padding: 18px; border-radius: 18px; border: none; font-size: 1.1rem; font-weight: 700; cursor: pointer; margin-bottom: 12px; }
-.btn-primary { background: var(--text-main); color: white; }
-.btn-text { background: transparent; color: #64748b; }
+.btn-full { width: 100%; padding: 16px; border-radius: 14px; border: none; font-size: 1.1rem; font-weight: 600; cursor: pointer; margin-bottom: 10px; }
+.btn-primary { background: #9a3412; color: white; }
+.btn-text { background: transparent; color: #78350f; }
 
-/* LOADING */
+/* LOADING ESPIRITUAL */
 #loader { 
   display: flex; flex-direction: column; align-items: center; justify-content: center; 
-  height: 60vh; color: var(--text-muted); text-align: center;
+  height: 70vh; text-align: center; padding: 20px;
 }
-.spinner {
-  width: 50px; height: 50px; border: 4px solid #e2e8f0; border-top-color: #6366f1; border-radius: 50%;
-  animation: spin 1s linear infinite; margin-bottom: 20px;
+.cross-spinner {
+  font-size: 3rem; color: #d97706; margin-bottom: 20px;
+  animation: pulse 2s infinite;
 }
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
+.frase-catolica {
+  font-family: 'Cinzel', serif; font-size: 1.1rem; color: #78350f; font-style: italic; max-width: 80%; line-height: 1.5;
+}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>POS<span style="color:#6366f1">.Pro</span></h1>
+  <h1><i class="fas fa-cross"></i> POS Católico</h1>
   <div class="badge-count" id="item-count">0</div>
 </header>
 
-<!-- CARGANDO -->
+<!-- PANTALLA DE CARGA CON FRASE -->
 <div id="loader">
-  <div class="spinner"></div>
-  <p>Cargando productos...</p>
+  <div class="cross-spinner"><i class="fas fa-bible"></i></div>
+  <div class="frase-catolica" id="frase-dia">"Todo lo puedo en Cristo que me fortalece."</div>
+  <p style="font-size: 0.8rem; color: #9ca3af; margin-top: 15px;">Conectando...</p>
 </div>
 
-<!-- GRID PRODUCTOS -->
+<!-- GRID -->
 <div class="grid" id="product-grid"></div>
 
-<!-- FOOTER FLOTANTE -->
+<!-- FOOTER -->
 <div class="floating-footer" id="footer">
-  <div class="total-wrapper">
-    <div class="total-label">Total a Pagar</div>
+  <div>
+    <div class="total-label">Total Ofrenda/Venta</div>
     <div class="total-amount" id="total-display">S/ 0.00</div>
   </div>
   <button class="btn-checkout" onclick="abrirPagar()">
-    Cobrar <i class="fas fa-chevron-right"></i>
+    Procesar <i class="fas fa-praying-hands" style="margin-left:5px"></i>
   </button>
 </div>
 
-<!-- MODAL / SHEET -->
+<!-- MODAL PAGO -->
 <div class="modal-overlay" id="modal-pago">
   <div class="modal-sheet">
-    <div class="sheet-header">
-      <h2 class="sheet-title">Confirmar</h2>
-      <button class="btn-close" onclick="cerrarPagar()"><i class="fas fa-times"></i></button>
+    <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+      <h2 style="margin:0; color:#78350f; font-family:'Cinzel', serif;">Confirmar</h2>
+      <button onclick="cerrarPagar()" style="background:none; border:none; font-size:1.5rem; color:#9a3412;"><i class="fas fa-times"></i></button>
     </div>
 
-    <div class="form-group">
-      <select id="metodo" class="input-modern" onchange="togglePago()">
-        <option value="Efectivo">💵 Efectivo</option>
-        <option value="Yape">🟣 Yape / Plin</option>
-        <option value="Tarjeta">💳 Tarjeta</option>
-      </select>
-    </div>
+    <select id="metodo" class="input-modern" onchange="togglePago()">
+      <option value="Efectivo">💵 Efectivo</option>
+      <option value="Yape">📱 Yape / Plin</option>
+      <option value="Tarjeta">💳 Tarjeta</option>
+    </select>
 
-    <div class="form-group" id="grupo-pago">
+    <div id="grupo-pago">
       <input type="number" id="pago-cliente" class="input-modern" placeholder="Monto recibido (S/)" oninput="calcularVuelto()">
     </div>
 
-    <div class="form-group" id="grupo-vuelto">
-      <input type="text" id="vuelto" class="input-modern" readonly style="color: #10b981; font-weight: 700; background: #ecfdf5; border:none;" placeholder="Vuelto: S/ 0.00">
-    </div>
+    <input type="text" id="vuelto" class="input-modern" readonly style="color: #059669; font-weight: 700; background: #ecfdf5; border:none;" placeholder="Vuelto: S/ 0.00">
 
     <button class="btn-full btn-primary" id="btn-finalizar" onclick="procesarVenta()">
       CONFIRMAR (S/ <span id="modal-total">0.00</span>)
     </button>
-    
   </div>
 </div>
 
 <script>
 // ==========================================
-// ¡PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT!
+// ¡PEGA AQUÍ TU URL DE APPS SCRIPT!
 // ==========================================
-const API_URL = "https://script.google.com/macros/s/AKfycbwo634vuAwBsue13jIrizn4qF2UwNZ23GHjrgUXnx2Wgzvy2xGyF3ZFrSsi-tXZca-YLg/exec"; 
+const API_URL = "https://script.google.com/macros/s/AKfycbxPMcnt83Vwt5zk2ybsIRPbY4TQokuoELryBykI63HV3rsDMk9_knxMINj6FsrAontICQ/exec"; 
+
+// FRASES CATÓLICAS PARA LA CARGA
+const frases = [
+  "«El que canta, ora dos veces.» - San Agustín",
+  "«Todo lo puedo en Cristo que me fortalece.» - Flp 4,13",
+  "«Nada te turbe, nada te espante, Dios no se muda.» - Santa Teresa",
+  "«Hagan todo lo que Él les diga.» - Juan 2,5",
+  "«La paz os dejo, mi paz os doy.» - Juan 14,27",
+  "«Señor, haz de mí un instrumento de tu paz.» - San Francisco",
+  "«Donde hay caridad y amor, allí está Dios.»"
+];
 
 let productos = [];
 let carrito = {};
 
 // 1. INICIALIZAR
 window.onload = function() {
+  // Poner frase aleatoria
+  document.getElementById('frase-dia').textContent = frases[Math.floor(Math.random() * frases.length)];
+
   fetch(API_URL + "?action=getProductos")
     .then(response => response.json())
     .then(res => {
       if(res.status === 'success'){
         cargarProductos(res.data);
       } else {
-        document.getElementById('loader').innerHTML = "<p>Error al cargar</p>";
+        document.getElementById('loader').innerHTML = "<p style='color:red'>Error cargando datos</p>";
       }
     })
     .catch(err => {
       console.error(err);
-      document.getElementById('loader').innerHTML = "<p>Verifica la URL del script</p>";
+      document.getElementById('loader').innerHTML = "<p>Verifica tu conexión</p>";
     });
 };
 
@@ -346,10 +286,13 @@ function cargarProductos(data) {
   grid.innerHTML = ""; 
   
   productos.forEach((p, index) => {
-    // Si no hay imagen, pone un icono moderno
+    // Iconos aleatorios si no hay imagen (Cruz, Paloma, Iglesia)
+    const iconos = ['fa-cross', 'fa-dove', 'fa-church', 'fa-heart'];
+    const iconoRandom = iconos[index % iconos.length];
+    
     let imgHtml = p.img 
       ? `<img src="${p.img}" alt="${p.nombre}">` 
-      : `<i class="fas fa-cube placeholder-icon"></i>`;
+      : `<i class="fas ${iconoRandom} placeholder-icon"></i>`;
 
     let html = `
       <div class="card">
@@ -373,17 +316,16 @@ function updateCart(nombre, precio, delta) {
   carrito[nombre].cantidad += delta;
   if (carrito[nombre].cantidad < 0) carrito[nombre].cantidad = 0;
   
-  // Actualizar tarjeta específica
   let index = productos.findIndex(p => p.nombre === nombre);
   if(index >= 0) {
     let el = document.getElementById(`qty-${index}`);
     if(el) el.textContent = carrito[nombre].cantidad;
   }
   
-  // Animación contador header
+  // Animación del badge
   let badge = document.getElementById('item-count');
   badge.classList.remove('bump');
-  void badge.offsetWidth; // trigger reflow
+  void badge.offsetWidth;
   badge.classList.add('bump');
 
   calcularTotales();
@@ -399,17 +341,14 @@ function calcularTotales() {
     }
   }
   
-  // Actualización segura del DOM
+  // Actualización segura
   let elTotal = document.getElementById('total-display');
   if(elTotal) elTotal.textContent = "S/ " + total.toFixed(2);
-
   let elModalTotal = document.getElementById('modal-total');
   if(elModalTotal) elModalTotal.textContent = total.toFixed(2);
-  
   let elCount = document.getElementById('item-count');
   if(elCount) elCount.textContent = itemsCount;
   
-  // Mostrar/Ocultar Footer
   const footer = document.getElementById('footer');
   if (total > 0) footer.classList.add('visible'); 
   else footer.classList.remove('visible');
@@ -417,7 +356,7 @@ function calcularTotales() {
   return total;
 }
 
-// --- MODAL ---
+// --- MODAL Y PAGOS ---
 function abrirPagar() { document.getElementById('modal-pago').classList.add('open'); togglePago(); }
 function cerrarPagar() { document.getElementById('modal-pago').classList.remove('open'); }
 
@@ -425,7 +364,9 @@ function togglePago() {
   let metodo = document.getElementById('metodo').value;
   let esEfectivo = metodo === 'Efectivo';
   document.getElementById('grupo-pago').style.display = esEfectivo ? 'block' : 'none';
-  document.getElementById('grupo-vuelto').style.display = esEfectivo ? 'block' : 'none';
+  // En efectivo siempre mostrar vuelto, en otros no
+  let inputVuelto = document.getElementById('vuelto');
+  inputVuelto.style.display = esEfectivo ? 'block' : 'none';
 }
 
 function calcularVuelto() {
@@ -435,15 +376,16 @@ function calcularVuelto() {
   let inputVuelto = document.getElementById('vuelto');
   
   if(vuelto < 0) {
-    inputVuelto.value = "Falta S/ " + Math.abs(vuelto).toFixed(2);
-    inputVuelto.style.color = "#ef4444"; // Rojo moderno
+    inputVuelto.value = "Falta: S/ " + Math.abs(vuelto).toFixed(2);
+    inputVuelto.style.color = "#ef4444"; 
+    inputVuelto.style.background = "#fef2f2";
   } else {
     inputVuelto.value = "Vuelto: S/ " + vuelto.toFixed(2);
-    inputVuelto.style.color = "#10b981"; // Verde moderno
+    inputVuelto.style.color = "#059669"; 
+    inputVuelto.style.background = "#ecfdf5";
   }
 }
 
-// --- ENVIAR ---
 function procesarVenta() {
   let btn = document.getElementById('btn-finalizar');
   let total = calcularTotales();
@@ -453,16 +395,14 @@ function procesarVenta() {
     let pago = parseFloat(document.getElementById('pago-cliente').value);
     if (!pago || pago < total) {
       Swal.fire({
-        icon: 'error',
-        title: 'Pago insuficiente',
-        text: 'El monto recibido es menor al total.',
-        confirmButtonColor: '#1e293b'
+        icon: 'warning',
+        title: 'Monto insuficiente',
+        confirmButtonColor: '#9a3412'
       });
       return;
     }
   }
 
-  // Estado cargando
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registrando...';
   btn.disabled = true;
 
@@ -491,11 +431,12 @@ function procesarVenta() {
       cerrarPagar();
       Swal.fire({
         icon: 'success',
-        title: '¡Venta Lista!',
+        title: '¡Gracias y Bendiciones!',
+        text: 'Venta registrada con éxito.',
         showConfirmButton: false,
-        timer: 1500,
-        background: '#fff',
-        iconColor: '#10b981'
+        timer: 2000,
+        iconColor: '#d97706',
+        confirmButtonColor: '#9a3412'
       });
       resetApp();
     } else {
@@ -503,25 +444,22 @@ function procesarVenta() {
     }
   })
   .catch(err => {
-    Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo registrar: ' + err });
+    Swal.fire({ icon: 'error', title: 'Error', text: err });
     btn.disabled = false;
     btn.innerHTML = 'CONFIRMAR (S/ <span id="modal-total">' + total.toFixed(2) + '</span>)';
   });
 }
 
 function resetApp() {
-  // 1. Restaurar Botón
   let btn = document.getElementById('btn-finalizar');
   btn.disabled = false;
   btn.innerHTML = 'CONFIRMAR (S/ <span id="modal-total">0.00</span>)';
 
-  // 2. Limpiar
   carrito = {};
   document.querySelectorAll('.qty-display').forEach(el => el.textContent = '0');
   document.getElementById('pago-cliente').value = '';
   document.getElementById('vuelto').value = '';
   
-  // 3. Reset UI
   calcularTotales();
 }
 </script>
