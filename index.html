@@ -2,94 +2,327 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>POS GitHub Edition</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>POS Moderno</title>
+
+<!-- Fuente Poppins (Más moderna) e Iconos -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
-/* --- ESTILOS --- */
-:root { --primary: #2563eb; --primary-dark: #1e40af; --bg: #f3f4f6; --card: #ffffff; --text: #1f2937; --green: #10b981; }
+/* --- VARIABLES DE DISEÑO MODERNO --- */
+:root {
+  --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  --secondary-gradient: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%);
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --shadow-soft: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+  --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+  --radius: 24px;
+}
+
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 140px; }
-header { background: var(--card); padding: 20px; position: sticky; top: 0; z-index: 10; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); display: flex; justify-content: space-between; align-items: center; }
-header h1 { margin: 0; font-size: 1.2rem; color: var(--primary-dark); }
-.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; padding: 20px; }
-.card { background: var(--card); border-radius: 16px; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.05); height: 100%; }
-.img-placeholder { width: 100%; height: 100px; background: #e5e7eb; border-radius: 10px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 2rem; overflow: hidden; }
-.img-placeholder img { width: 100%; height: 100%; object-fit: cover; }
-.prod-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 5px; line-height: 1.2; }
-.prod-price { color: var(--green); font-weight: 800; font-size: 1.1rem; }
-.controls { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; background: #f9fafb; border-radius: 8px; padding: 4px; }
-.btn-mini { width: 30px; height: 30px; border: none; background: white; border-radius: 6px; font-weight: bold; color: var(--primary); box-shadow: 0 1px 2px rgba(0,0,0,0.1); font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
-.qty-display { font-weight: bold; font-size: 1rem; width: 30px; text-align: center;}
-.floating-footer { position: fixed; bottom: 20px; left: 20px; right: 20px; background: var(--text); color: white; border-radius: 20px; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 100; cursor: pointer; transform: translateY(150%); transition: transform 0.3s ease-out; }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  padding-bottom: 140px; /* Espacio para el footer */
+}
+
+/* HEADER CON EFECTO VIDRIO */
+header {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 15px 25px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+}
+
+.badge-count {
+  background: var(--text-main);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.badge-count.bump { transform: scale(1.2); }
+
+/* GRID DE PRODUCTOS */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+  padding: 25px;
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* TARJETA DE PRODUCTO */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255,255,255,0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+
+/* IMAGEN O ICONO */
+.img-box {
+  width: 100%;
+  aspect-ratio: 1/1; /* Cuadrado perfecto */
+  background: #f1f5f9;
+  border-radius: 18px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+.card:hover .img-box img { transform: scale(1.1); }
+
+.placeholder-icon {
+  font-size: 3rem;
+  background: var(--secondary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* INFO PRODUCTO */
+.prod-info { margin-bottom: 15px; }
+.prod-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; line-height: 1.3; color: var(--text-main); }
+.prod-price { font-weight: 700; font-size: 1.1rem; color: #6366f1; }
+
+/* CONTROLES */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 5px;
+}
+
+.btn-control {
+  width: 36px; height: 36px;
+  border: none;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  color: var(--text-main);
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.btn-control:active { transform: scale(0.9); background: #e2e8f0; }
+.btn-plus { background: var(--text-main); color: white; }
+.qty-display { font-weight: 600; font-size: 1rem; width: 30px; text-align: center; }
+
+/* FOOTER FLOTANTE */
+.floating-footer {
+  position: fixed;
+  bottom: 25px;
+  left: 20px;
+  right: 20px;
+  background: rgba(30, 41, 59, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: white;
+  border-radius: 24px;
+  padding: 16px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  z-index: 100;
+  transform: translateY(150%);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
 .floating-footer.visible { transform: translateY(0); }
-.total-amount { font-size: 1.5rem; font-weight: 800; }
-.btn-pay { background: var(--green); color: white; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 600; font-size: 1rem; }
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 200; display: none; align-items: flex-end; }
-.modal-overlay.open { display: flex; }
-.modal-content { background: white; width: 100%; border-radius: 25px 25px 0 0; padding: 30px; animation: slideUp 0.3s; }
-@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+.total-wrapper { display: flex; flex-direction: column; }
+.total-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; }
+.total-amount { font-size: 1.4rem; font-weight: 700; }
+
+.btn-checkout {
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+  display: flex; align-items: center; gap: 8px;
+  transition: transform 0.2s;
+}
+.btn-checkout:active { transform: scale(0.95); }
+
+/* MODAL / SHEET */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+  display: flex; align-items: flex-end;
+}
+.modal-overlay.open { opacity: 1; visibility: visible; }
+
+.modal-sheet {
+  background: #ffffff;
+  width: 100%;
+  border-radius: 30px 30px 0 0;
+  padding: 35px 30px;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.modal-overlay.open .modal-sheet { transform: translateY(0); }
+
+.sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+.sheet-title { font-size: 1.5rem; font-weight: 700; margin: 0; }
+.btn-close { background: none; border: none; font-size: 1.5rem; color: #94a3b8; }
+
 .form-group { margin-bottom: 20px; }
-.form-control { width: 100%; padding: 15px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 1.1rem; outline: none; display: block; }
-.btn-block { width: 100%; padding: 18px; border: none; border-radius: 15px; font-size: 1.2rem; font-weight: bold; cursor: pointer; }
-.btn-confirm { background: var(--primary); color: white; margin-bottom: 10px;}
-.btn-cancel { background: transparent; color: #888; }
-#loader { text-align: center; padding: 40px; color: #888; }
+.input-modern {
+  width: 100%;
+  padding: 18px;
+  background: #f1f5f9;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  font-size: 1.1rem;
+  font-family: inherit;
+  outline: none;
+  transition: 0.3s;
+}
+.input-modern:focus { background: white; border-color: #6366f1; }
+select.input-modern { appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 15px center; background-size: 15px; }
+
+.btn-full { width: 100%; padding: 18px; border-radius: 18px; border: none; font-size: 1.1rem; font-weight: 700; cursor: pointer; margin-bottom: 12px; }
+.btn-primary { background: var(--text-main); color: white; }
+.btn-text { background: transparent; color: #64748b; }
+
+/* LOADING */
+#loader { 
+  display: flex; flex-direction: column; align-items: center; justify-content: center; 
+  height: 60vh; color: var(--text-muted); text-align: center;
+}
+.spinner {
+  width: 50px; height: 50px; border: 4px solid #e2e8f0; border-top-color: #6366f1; border-radius: 50%;
+  animation: spin 1s linear infinite; margin-bottom: 20px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
 
 <header>
-  <h1><i class="fas fa-cash-register"></i> Mi Tienda</h1>
-  <div class="badge" id="item-count">0 items</div>
+  <h1>POS<span style="color:#6366f1">.Pro</span></h1>
+  <div class="badge-count" id="item-count">0</div>
 </header>
 
-<div id="loader"><i class="fas fa-spinner fa-spin fa-2x"></i><br><br>Conectando con Google...</div>
-<div class="grid" id="product-grid"></div>
-
-<div class="floating-footer" id="footer" onclick="abrirPagar()">
-  <div>
-    <div style="font-size:0.9rem; opacity:0.8">Total a Pagar</div>
-    <div class="total-amount" id="total-display">S/ 0.00</div>
-  </div>
-  <button class="btn-pay">COBRAR <i class="fas fa-arrow-right"></i></button>
+<!-- CARGANDO -->
+<div id="loader">
+  <div class="spinner"></div>
+  <p>Cargando productos...</p>
 </div>
 
+<!-- GRID PRODUCTOS -->
+<div class="grid" id="product-grid"></div>
+
+<!-- FOOTER FLOTANTE -->
+<div class="floating-footer" id="footer">
+  <div class="total-wrapper">
+    <div class="total-label">Total a Pagar</div>
+    <div class="total-amount" id="total-display">S/ 0.00</div>
+  </div>
+  <button class="btn-checkout" onclick="abrirPagar()">
+    Cobrar <i class="fas fa-chevron-right"></i>
+  </button>
+</div>
+
+<!-- MODAL / SHEET -->
 <div class="modal-overlay" id="modal-pago">
-  <div class="modal-content">
-    <h2 style="margin-top:0">Confirmar Venta</h2>
+  <div class="modal-sheet">
+    <div class="sheet-header">
+      <h2 class="sheet-title">Confirmar</h2>
+      <button class="btn-close" onclick="cerrarPagar()"><i class="fas fa-times"></i></button>
+    </div>
+
     <div class="form-group">
-      <select id="metodo" class="form-control" onchange="togglePago()">
-        <option value="Efectivo">Efectivo</option>
-        <option value="Yape">Yape / Plin</option>
-        <option value="Tarjeta">Tarjeta</option>
+      <select id="metodo" class="input-modern" onchange="togglePago()">
+        <option value="Efectivo">💵 Efectivo</option>
+        <option value="Yape">🟣 Yape / Plin</option>
+        <option value="Tarjeta">💳 Tarjeta</option>
       </select>
     </div>
+
     <div class="form-group" id="grupo-pago">
-      <input type="number" id="pago-cliente" class="form-control" placeholder="Monto recibido" oninput="calcularVuelto()">
+      <input type="number" id="pago-cliente" class="input-modern" placeholder="Monto recibido (S/)" oninput="calcularVuelto()">
     </div>
+
     <div class="form-group" id="grupo-vuelto">
-      <input type="text" id="vuelto" class="form-control" readonly style="background:#f3f4f6; color: var(--green); font-weight:bold;" placeholder="Vuelto">
+      <input type="text" id="vuelto" class="input-modern" readonly style="color: #10b981; font-weight: 700; background: #ecfdf5; border:none;" placeholder="Vuelto: S/ 0.00">
     </div>
-    <button class="btn-block btn-confirm" id="btn-finalizar" onclick="procesarVenta()">CONFIRMAR (S/ <span id="modal-total">0.00</span>)</button>
-    <button class="btn-block btn-cancel" onclick="cerrarPagar()">Cancelar</button>
+
+    <button class="btn-full btn-primary" id="btn-finalizar" onclick="procesarVenta()">
+      CONFIRMAR (S/ <span id="modal-total">0.00</span>)
+    </button>
+    
   </div>
 </div>
 
 <script>
 // ==========================================
-// CONFIGURACIÓN: URL ACTUALIZADA
+// ¡PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT!
 // ==========================================
-const API_URL = "https://script.google.com/macros/s/AKfycbziPS96cXLEdExhs4ZlCZGFlUC6DIlQsZC3986KwmdcZd-mvrTtGa1UBhCPlhPlxCheag/exec"; 
+const API_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLji02kto8DDuUx6Krz7ZTOeXqEyRgupujX5XTIiIakG1jnVE8XxHIx9BKkCkuXTEH7hiHSLyycHxAYJNYperyVjZpkz8nKidjgmNaegLb2SK7O6MJb9kOYy5v7CwxwuBcu5GkGOVAAvQbynFWgfXJjlkJPALM2ijRFdaGY89iGJ5BoXcokMYOMQiVruhqUNRq-CGMdLLHo-RA1cgeJMorjYEZmooBDCSCodPAyUEMWsS7FfqcxuN2KlkyA1CvTfe-OLobJawBTL3qBHMQpYIyfR2VaH1yHkO0ZOboUC&lib=MAeODvDheANvgEY2yzXNzIVKOlH7Us0IG"; 
 
 let productos = [];
 let carrito = {};
 
-// 1. CARGAR PRODUCTOS AL INICIO
+// 1. INICIALIZAR
 window.onload = function() {
   fetch(API_URL + "?action=getProductos")
     .then(response => response.json())
@@ -97,12 +330,12 @@ window.onload = function() {
       if(res.status === 'success'){
         cargarProductos(res.data);
       } else {
-        document.getElementById('loader').innerHTML = "Error: " + JSON.stringify(res);
+        document.getElementById('loader').innerHTML = "<p>Error al cargar</p>";
       }
     })
     .catch(err => {
       console.error(err);
-      document.getElementById('loader').innerHTML = "Error de conexión. Verifica la URL.";
+      document.getElementById('loader').innerHTML = "<p>Verifica la URL del script</p>";
     });
 };
 
@@ -110,21 +343,25 @@ function cargarProductos(data) {
   document.getElementById('loader').style.display = 'none';
   productos = data;
   const grid = document.getElementById('product-grid');
-  grid.innerHTML = ""; // Limpiar grid por si acaso
+  grid.innerHTML = ""; 
   
   productos.forEach((p, index) => {
-    let imgHtml = p.img ? `<img src="${p.img}" alt="${p.nombre}">` : `<i class="fas fa-box"></i>`;
+    // Si no hay imagen, pone un icono moderno
+    let imgHtml = p.img 
+      ? `<img src="${p.img}" alt="${p.nombre}">` 
+      : `<i class="fas fa-cube placeholder-icon"></i>`;
+
     let html = `
       <div class="card">
-        <div class="img-placeholder">${imgHtml}</div>
-        <div>
+        <div class="img-box">${imgHtml}</div>
+        <div class="prod-info">
           <div class="prod-title">${p.nombre}</div>
           <div class="prod-price">S/ ${parseFloat(p.precio).toFixed(2)}</div>
         </div>
         <div class="controls">
-          <button class="btn-mini" onclick="updateCart('${p.nombre}', ${p.precio}, -1)">−</button>
+          <button class="btn-control" onclick="updateCart('${p.nombre}', ${p.precio}, -1)">−</button>
           <span class="qty-display" id="qty-${index}">0</span>
-          <button class="btn-mini" onclick="updateCart('${p.nombre}', ${p.precio}, 1)">+</button>
+          <button class="btn-control btn-plus" onclick="updateCart('${p.nombre}', ${p.precio}, 1)">+</button>
         </div>
       </div>`;
     grid.innerHTML += html;
@@ -136,11 +373,19 @@ function updateCart(nombre, precio, delta) {
   carrito[nombre].cantidad += delta;
   if (carrito[nombre].cantidad < 0) carrito[nombre].cantidad = 0;
   
+  // Actualizar tarjeta específica
   let index = productos.findIndex(p => p.nombre === nombre);
   if(index >= 0) {
-     let qtyEl = document.getElementById(`qty-${index}`);
-     if(qtyEl) qtyEl.textContent = carrito[nombre].cantidad;
+    let el = document.getElementById(`qty-${index}`);
+    if(el) el.textContent = carrito[nombre].cantidad;
   }
+  
+  // Animación contador header
+  let badge = document.getElementById('item-count');
+  badge.classList.remove('bump');
+  void badge.offsetWidth; // trigger reflow
+  badge.classList.add('bump');
+
   calcularTotales();
 }
 
@@ -154,19 +399,20 @@ function calcularTotales() {
     }
   }
   
-  // Actualizar UI de forma SEGURA (evita errores null)
-  let totalDisplay = document.getElementById('total-display');
-  if(totalDisplay) totalDisplay.textContent = "S/ " + total.toFixed(2);
+  // Actualización segura del DOM
+  let elTotal = document.getElementById('total-display');
+  if(elTotal) elTotal.textContent = "S/ " + total.toFixed(2);
+
+  let elModalTotal = document.getElementById('modal-total');
+  if(elModalTotal) elModalTotal.textContent = total.toFixed(2);
   
-  // Esta es la parte que fallaba: ahora verificamos si existe antes de escribir
-  let modalTotal = document.getElementById('modal-total');
-  if(modalTotal) modalTotal.textContent = total.toFixed(2);
+  let elCount = document.getElementById('item-count');
+  if(elCount) elCount.textContent = itemsCount;
   
-  let itemCount = document.getElementById('item-count');
-  if(itemCount) itemCount.textContent = itemsCount + " items";
-  
+  // Mostrar/Ocultar Footer
   const footer = document.getElementById('footer');
-  if (total > 0) footer.classList.add('visible'); else footer.classList.remove('visible');
+  if (total > 0) footer.classList.add('visible'); 
+  else footer.classList.remove('visible');
   
   return total;
 }
@@ -187,8 +433,14 @@ function calcularVuelto() {
   let pago = parseFloat(document.getElementById('pago-cliente').value) || 0;
   let vuelto = pago - total;
   let inputVuelto = document.getElementById('vuelto');
-  inputVuelto.value = vuelto < 0 ? "Falta dinero" : "S/ " + vuelto.toFixed(2);
-  inputVuelto.style.color = vuelto < 0 ? "red" : "var(--green)";
+  
+  if(vuelto < 0) {
+    inputVuelto.value = "Falta S/ " + Math.abs(vuelto).toFixed(2);
+    inputVuelto.style.color = "#ef4444"; // Rojo moderno
+  } else {
+    inputVuelto.value = "Vuelto: S/ " + vuelto.toFixed(2);
+    inputVuelto.style.color = "#10b981"; // Verde moderno
+  }
 }
 
 // --- ENVIAR ---
@@ -199,12 +451,19 @@ function procesarVenta() {
 
   if (metodo === 'Efectivo') {
     let pago = parseFloat(document.getElementById('pago-cliente').value);
-    if (!pago || pago < total) return Swal.fire('Error', 'Pago insuficiente', 'error');
+    if (!pago || pago < total) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Pago insuficiente',
+        text: 'El monto recibido es menor al total.',
+        confirmButtonColor: '#1e293b'
+      });
+      return;
+    }
   }
 
-  // Cambiar estado a Enviando (Esto borraba el span antes, ahora lo manejamos mejor)
-  let originalBtnText = btn.innerHTML;
-  btn.innerText = "Enviando...";
+  // Estado cargando
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registrando...';
   btn.disabled = true;
 
   let itemsVendidos = [];
@@ -230,15 +489,21 @@ function procesarVenta() {
   .then(res => {
     if(res.status === 'success'){
       cerrarPagar();
-      Swal.fire({ title: '¡Venta Registrada!', icon: 'success', timer: 2000, showConfirmButton: false });
+      Swal.fire({
+        icon: 'success',
+        title: '¡Venta Lista!',
+        showConfirmButton: false,
+        timer: 1500,
+        background: '#fff',
+        iconColor: '#10b981'
+      });
       resetApp();
     } else {
       throw new Error(res.message);
     }
   })
   .catch(err => {
-    Swal.fire('Error', 'No se pudo registrar: ' + err, 'error');
-    // Restaurar botón correctamente si hay error
+    Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo registrar: ' + err });
     btn.disabled = false;
     btn.innerHTML = 'CONFIRMAR (S/ <span id="modal-total">' + total.toFixed(2) + '</span>)';
   });
@@ -246,16 +511,17 @@ function procesarVenta() {
 
 function resetApp() {
   // 1. Restaurar Botón
-  document.getElementById('btn-finalizar').disabled = false;
-  document.getElementById('btn-finalizar').innerHTML = 'CONFIRMAR (S/ <span id="modal-total">0.00</span>)';
+  let btn = document.getElementById('btn-finalizar');
+  btn.disabled = false;
+  btn.innerHTML = 'CONFIRMAR (S/ <span id="modal-total">0.00</span>)';
 
-  // 2. Limpiar datos
+  // 2. Limpiar
   carrito = {};
   document.querySelectorAll('.qty-display').forEach(el => el.textContent = '0');
   document.getElementById('pago-cliente').value = '';
   document.getElementById('vuelto').value = '';
-
-  // 3. Recalcular (ahora es seguro porque calcularTotales verifica si existen los elementos)
+  
+  // 3. Reset UI
   calcularTotales();
 }
 </script>
